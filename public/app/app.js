@@ -85,24 +85,28 @@ const Products = () => {
     });
     Fetcher.setOnSuccess(({products}) => {
         const div = document.createElement('div');
-        products.forEach((product) => {
-            let title = document.createElement('h1');
-            title.textContent = product.title;
-            let description = document.createElement('p');
-            description.textContent = product.description;
-            let price = document.createElement('p');
-            price.textContent = product.price;
-            let images = document.createElement('div');
-            product.images.forEach((image) => {
-                let img = document.createElement('img');
-                img.src = image;
-                images.appendChild(img);
+        if (products.length > 0) {
+            products.forEach((product) => {
+                let title = document.createElement('h1');
+                title.textContent = product.title;
+                let description = document.createElement('p');
+                description.textContent = product.description;
+                let price = document.createElement('p');
+                price.textContent = product.price;
+                let images = document.createElement('div');
+                product.images.forEach((image) => {
+                    let img = document.createElement('img');
+                    img.src = image;
+                    images.appendChild(img);
+                });
+                div.appendChild(title);
+                div.appendChild(description);
+                div.appendChild(price);
+                div.appendChild(images);
             });
-            div.appendChild(title);
-            div.appendChild(description);
-            div.appendChild(price);
-            div.appendChild(images);
-        });
+        } else {
+            div.textContent = 'No products found';
+        }
         dataContainer.innerHTML = '';
         dataContainer.appendChild(div);
     });
