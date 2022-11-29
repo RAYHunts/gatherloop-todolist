@@ -98,4 +98,56 @@ class State {
 
 }
 
-export { Router, State, Style };
+class Fetch  {
+    constructor() {
+    }
+
+    onProgress = () => {
+        // an empty function to be overwritten
+    }
+    setOnProgress = (callback) => {
+        this.onProgress = callback;
+    }
+    onFail = () => {
+        // an empty function to be overwritten
+    }
+    setOnFail = (callback) => {
+        this.onFail = callback;
+    }
+    onSuccess = () => {
+        // an empty function to be overwritten
+    }
+    setOnSuccess = (callback) => {
+        this.onSuccess = callback;
+    }
+
+    Get = (url) => {
+        this.onProgress();
+        fetch(url)
+        .then(res => res.json())
+        .then(data => this.onSuccess(data))
+        .catch(error => this.onFail(error));
+        
+    }
+
+    Post = (url, data) => {
+        this.onProgress();
+        fetch(url, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then((response) => {
+            if (response.status >= 200 && response.status < 300) {
+                this.onSuccess();
+            } else {
+                this.onFail();
+            }
+        })
+    }
+
+}
+
+export { Router, State, Style, Fetch };
